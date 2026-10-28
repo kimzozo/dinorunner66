@@ -104,20 +104,36 @@
     body.mode-mobile #gameCanvas {
       /* A vertical swipe on the game can scroll the containing GitHub page. */
       touch-action: pan-y;
+      /* Repainting a large blurred canvas shadow costs noticeably on phones. */
+      box-shadow: none;
+    }
+    body.mode-mobile #canvasContainer {
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.38) !important;
+      contain: layout paint;
+    }
+    body.mode-mobile #introGuideOverlay {
+      /* The guide covers the game; blurring an animated canvas beneath it is
+         pure GPU work and is a common source of mobile stutter. */
+      background-color: rgba(2, 6, 23, 0.96) !important;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
     }
     /*
        A shared link often opens inside an in-app browser that cannot lock the
        device orientation. Keep the game playable in portrait instead of
        cropping it or trapping the player behind the rotate-screen overlay.
     */
-    @media (max-width: 767px) and (orientation: portrait) {
+    /* Device mode is selected in JavaScript from the phone user agent. A
+       landscape phone can be wider than 767 CSS px, so do not gate these
+       mobile rules behind a viewport-width breakpoint. */
+    @media (orientation: portrait) {
       body.mode-mobile #mobileArcadePad {
         margin-top: 4px;
       }
     }
     /* Compact landscape mode: keep the whole arcade panel comfortable on a
        phone screen instead of enlarging the canvas to the full page width. */
-    @media (max-width: 767px) and (orientation: landscape) {
+    @media (orientation: landscape) {
       body.mode-mobile {
         padding: 3px 8px !important;
       }
@@ -2264,7 +2280,11 @@
       }
 
       const canvas = document.getElementById('gameCanvas');
-      const ctx = canvas.getContext('2d');
+      // The canvas always paints a full opaque game scene. Asking for an
+      // opaque, low-latency context avoids an unnecessary alpha composite on
+      // mobile GPUs; unsupported options are safely ignored by browsers.
+      const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
+      ctx.imageSmoothingEnabled = false;
       const W = 800;
       const H = 300;
       const GROUND_Y = 252;
@@ -3182,7 +3202,9 @@
           ufoBoss.startEncounter();
         }
 
-        if (frameCount % 6 === 0) updateHeaderHUD();
+        // Canvas HUD is rendered every frame; the surrounding DOM timeline
+        // only needs a 5 Hz refresh on mobile and otherwise causes layout work.
+        if (frameCount % (isMobileMode ? 12 : 6) === 0) updateHeaderHUD();
         updateColorLerp();
 
         if (banner.timer > 0) {
@@ -5798,19 +5820,33 @@
       // 12. MAIN ANIMATION LOOP & INPUT HANDLERS
       // =========================================================================
       let rafId = null;
+      let lastRenderAt = 0;
+      const MOBILE_PLAY_RENDER_INTERVAL = 1000 / 45;
+      const MOBILE_IDLE_RENDER_INTERVAL = 1000 / 15;
 
-      function gameLoop() {
+      function gameLoop(now = performance.now()) {
+        // Stop all canvas work when the page is in another tab or app.
+        if (document.hidden) {
+          rafId = null;
+          return;
+        }
         if (isPortraitLocked) {
           rafId = requestAnimationFrame(gameLoop);
           return;
         }
+        const isIdleCanvasState = gameState === STATE.READY || gameState === STATE.GAMEOVER;
+        const renderInterval = !isMobileMode
+          ? 0
+          : (isIdleCanvasState ? MOBILE_IDLE_RENDER_INTERVAL : (gameState === STATE.PLAYING ? MOBILE_PLAY_RENDER_INTERVAL : 0));
+        const shouldRender = renderInterval === 0 || now - lastRenderAt >= renderInterval;
+
         if (gameState === STATE.PLAYING) updatePlaying();
         else if (gameState === STATE.IMPACT_CUTSCENE) updateImpactCutscene();
         else if (gameState === STATE.STAGE1_BURIED_ENDING) updateBuriedEnding();
         else if (gameState === STATE.STAGE2_AWAKEN_CUTSCENE) updateAwakenCutscene();
         else if (gameState === STATE.STAGE2_CAPTURE_CUTSCENE) updateCaptureCutscene();
         else if (gameState === STATE.FINAL_EPILOGUE) updateFinalEpilogue();
-        else {
+        else if (shouldRender) {
           frameCount++;
           if (gameState === STATE.READY) {
             for (let ml of midLandmarks) {
@@ -5827,6 +5863,14 @@
             }
           }
         }
+
+        // Keep game physics and touch response at the browser refresh rate,
+        // while skipping expensive redraws that the phone cannot display.
+        if (!shouldRender) {
+          rafId = requestAnimationFrame(gameLoop);
+          return;
+        }
+        lastRenderAt = now;
 
         ctx.save();
 
@@ -6311,6 +6355,17 @@
         window.visualViewport.addEventListener('resize', handleResize);
         window.visualViewport.addEventListener('scroll', syncAppViewport);
       }
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          if (rafId) cancelAnimationFrame(rafId);
+          rafId = null;
+          return;
+        }
+        if (!rafId) {
+          lastRenderAt = 0;
+          rafId = requestAnimationFrame(gameLoop);
+        }
+      });
 
       // Force instant loop initialization regardless of document ready state
       handleResize();
