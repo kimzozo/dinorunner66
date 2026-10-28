@@ -21,18 +21,44 @@
       --pixel-font: 'Press Start 2P', monospace;
       --retro-sans: 'VT323', monospace;
     }
-    body {
+    html, body {
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 100%;
+      height: 100%;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: #0d0f14;
-      color: #e5e7eb;
+      background-color: #0d0f14 !important;
+      color: #e5e7eb !important;
       user-select: none;
       -webkit-user-select: none;
       overflow-x: hidden;
     }
+    /* Neutralize GitHub Pages / Jekyll markdown-body wrapper if pasted into README.md */
+    .markdown-body h1, .markdown-body h2 {
+      border-bottom: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    #gameAppRoot {
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      width: 100vw;
+      height: 100dvh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 12px;
+      background: linear-gradient(to bottom, #0b0d13, #121620, #0b0d13);
+      box-sizing: border-box;
+    }
     .pixel-font { font-family: var(--pixel-font); }
     .retro-mono { font-family: var(--retro-sans); }
     #canvasContainer {
-      aspect-ratio: 800 / 320;
+      aspect-ratio: 800 / 300;
       width: 100%;
       max-width: 880px;
       background-color: #181c26;
@@ -41,16 +67,14 @@
     /* ===================================================================== */
     /* MOBILE LANDSCAPE-ONLY FULLSCREEN CONSOLE DESIGN (모바일 가로 전용 UI) */
     /* ===================================================================== */
-    body.mode-mobile {
-      height: 100dvh;
-      max-height: 100dvh;
-      overflow: hidden;
-      padding: 4px 8px !important;
-      justify-content: space-between;
+    body.mode-mobile #gameAppRoot {
+      padding: 4px 10px !important;
+      gap: 3px;
     }
     body.mode-mobile header {
       max-width: 100% !important;
-      padding-bottom: 3px !important;
+      padding-bottom: 2px !important;
+      flex-shrink: 0;
     }
     body.mode-mobile main {
       max-width: 100% !important;
@@ -59,14 +83,15 @@
       width: 100%;
       gap: 4px !important;
       padding: 0 !important;
+      justify-content: space-between;
     }
     body.mode-mobile #timelineBarCard {
-      padding: 3px 10px !important;
+      padding: 3px 8px !important;
       border-radius: 0.5rem !important;
       gap: 2px !important;
     }
     body.mode-mobile #eraLabelsGrid {
-      display: none !important; /* Save vertical height in landscape so canvas fills screen */
+      display: none !important;
     }
     /* Shrink game screen slightly in mobile landscape so the dedicated button bar below never covers the dinosaur! */
     body.mode-mobile #canvasContainer {
@@ -74,16 +99,16 @@
       width: 100%;
       max-width: 100%;
       flex: 1 1 0%;
-      min-height: 120px;
-      max-height: calc(100dvh - 116px);
-      border-radius: 0.65rem;
+      min-height: 135px;
+      height: calc(100dvh - 114px);
+      max-height: calc(100dvh - 114px);
+      border-radius: 0.6rem;
     }
     /* Dedicated non-overlapping button deck space below the game screen */
     body.mode-mobile #mobileArcadePad {
       position: relative;
       width: 100%;
       flex-shrink: 0;
-      padding-top: 2px;
       z-index: 20;
     }
     /* Floating Cheat Drawer in Mobile Landscape */
@@ -159,7 +184,8 @@
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-1.5 sm:p-4 bg-gradient-to-b from-[#0b0d13] via-[#121620] to-[#0b0d13]">
+<body>
+  <div id="gameAppRoot">
 
   <!-- ===================================================================== -->
   <!-- PORTRAIT ORIENTATION LOCK OVERLAY (모바일 세로 상태일 때 가로 회전 유도) -->
@@ -279,27 +305,27 @@
       <div class="crt-scanlines pointer-events-none absolute inset-0"></div>
 
       <!-- ================================================================= -->
-      <!-- PRE-GAME BRIEFING OVERLAY (가로 화면에도 꽉 차게 들어오는 설명 창) -->
+      <!-- PRE-GAME BRIEFING OVERLAY (화면 잘림 없이 전체화면에 뜨는 설명 모달) -->
       <!-- ================================================================= -->
-      <div id="introGuideOverlay" class="absolute inset-0 z-30 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-2 sm:p-3">
-        <div class="w-full max-w-[540px] bg-slate-900/95 border-2 border-amber-400/80 rounded-2xl px-3.5 py-2.5 sm:p-4 shadow-2xl text-slate-100 flex flex-col gap-2">
+      <div id="introGuideOverlay" class="fixed inset-0 z-40 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+        <div class="w-full max-w-[520px] max-h-[94dvh] overflow-y-auto bg-slate-900/95 border-2 border-amber-400/80 rounded-2xl px-3.5 py-2.5 sm:p-4 shadow-2xl text-slate-100 flex flex-col gap-2 my-auto">
           <div class="flex items-center justify-between border-b border-slate-800 pb-1.5">
             <div class="flex items-center gap-1.5">
               <span class="text-sm sm:text-base">🦖</span>
-              <h2 class="pixel-font text-[10px] sm:text-xs text-amber-400">DINO : 66,000,000 — 게임 설명</h2>
+              <span class="pixel-font text-[10px] sm:text-xs text-amber-400">DINO : 66,000,000 — 게임 설명</span>
             </div>
-            <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">2부작 대서사시 (8,000점)</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold shrink-0">2부작 (8,000점)</span>
           </div>
 
-          <!-- Wide 2-Column Story & Controls Grid (Fits low-height mobile landscape cleanly!) -->
+          <!-- Wide 2-Column Story & Controls Grid -->
           <div class="grid grid-cols-2 gap-2 text-[10px] sm:text-xs">
             <div class="bg-slate-950/90 border border-slate-800 rounded-xl p-2">
               <div class="font-bold text-amber-300 mb-0.5">🌋 1부 : 중생대 진화 (0~4,000)</div>
-              <p class="text-slate-300 leading-tight">원시 공룡에서 티렉스로 진화하며 대멸종 소행성 충돌까지 생존!</p>
+              <p class="text-slate-300 leading-tight m-0">원시 공룡에서 티렉스로 진화하며 대멸종 소행성 충돌까지 생존!</p>
             </div>
             <div class="bg-slate-950/90 border border-slate-800 rounded-xl p-2">
               <div class="font-bold text-cyan-300 mb-0.5">🦴 2부 : 부활한 백골 (4,000~8,000)</div>
-              <p class="text-slate-300 leading-tight">땅속 화석에서 깨어나 인류 역사·초미래 UFO 보스전을 돌파!</p>
+              <p class="text-slate-300 leading-tight m-0">땅속 화석에서 깨어나 인류 역사·초미래 UFO 보스전을 돌파!</p>
             </div>
           </div>
 
@@ -314,7 +340,7 @@
                 </svg>
               </div>
               <div>
-                <div class="font-bold text-cyan-200">숙이기 <span class="text-[9px] text-slate-400">(좌측 버튼 / ↓)</span></div>
+                <div class="font-bold text-cyan-200">숙이기 <span class="text-[9px] text-slate-400">(좌측키 / ↓)</span></div>
                 <div class="text-[9px] sm:text-[10px] text-slate-400">익룡·비행체·상단 레이저 회피</div>
               </div>
             </div>
@@ -327,7 +353,7 @@
                 </svg>
               </div>
               <div>
-                <div class="font-bold text-amber-200">점프 <span class="text-[9px] text-slate-400">(우측 버튼 / SPACE)</span></div>
+                <div class="font-bold text-amber-200">점프 <span class="text-[9px] text-slate-400">(우측키 / SPACE)</span></div>
                 <div class="text-[9px] sm:text-[10px] text-slate-400">지상 장애물·하단 레이저 회피</div>
               </div>
             </div>
@@ -473,6 +499,7 @@
 
     </div>
   </main>
+  </div>
 
   <!-- Deploy & Standalone HTML Download Modal -->
   <div id="deployModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
@@ -5966,17 +5993,38 @@
         const modeLabel = document.getElementById('deviceModeLabel');
 
         if (envBadge) {
-          if (isMobileMode) {
-            envBadge.textContent = isAuto ? '📱 모바일 환경 (자동 최적화)' : '📱 모바일 대형키 모드';
-            envBadge.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-400/50 text-amber-300';
-          } else {
-            envBadge.textContent = isAuto ? '💻 PC 환경 (키보드 최적화)' : '💻 PC 키보드 모드';
-            envBadge.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-500/15 border border-cyan-500/40 text-cyan-300';
-          }
+          envBadge.className = 'hidden';
         }
         if (modeIcon) modeIcon.textContent = isMobileMode ? '💻' : '📱';
         if (modeLabel) modeLabel.textContent = isMobileMode ? 'PC 모드로 보기' : '모바일 대형키 켜기';
       }
+
+      // Clean up any stray GitHub Pages / Jekyll wrapper nodes (e.g. repo title "dinorunner66" or literal "<!DOCTYPE html>" text if pasted into README.md)
+      function cleanGitHubWrapperClutter() {
+        try {
+          const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+          const toRemove = [];
+          while (walker.nextNode()) {
+            const node = walker.currentNode;
+            if (node.nodeValue && /<!DOCTYPE/i.test(node.nodeValue)) {
+              toRemove.push(node);
+            }
+          }
+          toRemove.forEach((n) => {
+            if (n.parentNode && n.parentNode.tagName === 'P' && n.parentNode.textContent.trim().startsWith('<!DOCTYPE')) {
+              n.parentNode.style.display = 'none';
+            } else {
+              n.nodeValue = '';
+            }
+          });
+          document.querySelectorAll('h1, .markdown-body > h1, .page-header, .site-footer').forEach((el) => {
+            if (!el.closest('#gameAppRoot')) {
+              el.style.display = 'none';
+            }
+          });
+        } catch (_) {}
+      }
+      cleanGitHubWrapperClutter();
 
       // Initialize Device Mode automatically on load
       applyDeviceMode(detectIsMobileEnvironment(), true);
