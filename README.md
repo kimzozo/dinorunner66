@@ -22,6 +22,7 @@
       --retro-sans: 'VT323', monospace;
       /* Updated by syncAppViewport() so embedded/in-app mobile browsers use their real visible height. */
       --app-height: 100vh;
+      --app-width: 100vw;
     }
     html {
       width: 100%;
@@ -57,7 +58,7 @@
     /* MOBILE LINK / EMBED LAYOUT */
     /* ===================================================================== */
     body.mode-mobile {
-      width: 100%;
+      width: min(100%, var(--app-width));
       height: auto;
       min-height: var(--app-height);
       max-height: none;
@@ -65,6 +66,8 @@
       overflow-y: auto;
       overscroll-behavior: auto;
       padding: 4px 8px !important;
+      margin-left: auto;
+      margin-right: auto;
       justify-content: flex-start;
     }
     body.mode-mobile header {
@@ -129,7 +132,9 @@
       }
       body.mode-mobile #canvasContainer,
       body.mode-mobile #mobileArcadePad {
-        width: min(100%, 640px);
+        width: min(calc(var(--app-width) - 16px), 640px);
+        max-width: calc(var(--app-width) - 16px);
+        align-self: center;
         margin-left: auto;
         margin-right: auto;
       }
@@ -6024,8 +6029,12 @@
         // bar expands/collapses and when this page is embedded in a preview.
         const viewport = window.visualViewport;
         const height = viewport && viewport.height ? viewport.height : window.innerHeight;
+        const width = viewport && viewport.width ? viewport.width : window.innerWidth;
         if (height > 0) {
           document.documentElement.style.setProperty('--app-height', `${Math.round(height * 100) / 100}px`);
+        }
+        if (width > 0) {
+          document.documentElement.style.setProperty('--app-width', `${Math.round(width * 100) / 100}px`);
         }
       }
 
