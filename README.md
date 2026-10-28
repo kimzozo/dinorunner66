@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#0b0d13" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -20,26 +20,11 @@
     :root {
       --pixel-font: 'Press Start 2P', monospace;
       --retro-sans: 'VT323', monospace;
-      /* Updated by syncAppViewport() so embedded/in-app mobile browsers use their real visible height. */
-      --app-height: 100vh;
-    }
-    html {
-      width: 100%;
-      min-height: 100%;
-      background-color: #0d0f14;
-      overflow-x: clip;
-      -webkit-text-size-adjust: 100%;
-      text-size-adjust: 100%;
-    }
-    *, *::before, *::after {
-      box-sizing: border-box;
     }
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background-color: #0d0f14;
       color: #e5e7eb;
-      margin: 0;
-      min-width: 0;
       user-select: none;
       -webkit-user-select: none;
       overflow-x: hidden;
@@ -54,21 +39,14 @@
       transition: height 0.15s ease;
     }
     /* ===================================================================== */
-    /* MOBILE LINK / EMBED LAYOUT */
+    /* MOBILE LANDSCAPE-ONLY FULLSCREEN CONSOLE DESIGN (모바일 가로 전용 UI) */
     /* ===================================================================== */
     body.mode-mobile {
-      width: 100%;
-      max-width: 100%;
-      height: auto;
-      min-height: var(--app-height);
-      max-height: none;
-      overflow-x: hidden;
-      overflow-y: auto;
-      overscroll-behavior: auto;
+      height: 100dvh;
+      max-height: 100dvh;
+      overflow: hidden;
       padding: 4px 8px !important;
-      margin-left: 0;
-      margin-right: 0;
-      justify-content: flex-start;
+      justify-content: space-between;
     }
     body.mode-mobile header {
       max-width: 100% !important;
@@ -76,7 +54,7 @@
     }
     body.mode-mobile main {
       max-width: 100% !important;
-      flex: 0 0 auto;
+      flex: 1 1 auto;
       min-height: 0;
       width: 100%;
       gap: 4px !important;
@@ -90,77 +68,15 @@
     body.mode-mobile #eraLabelsGrid {
       display: none !important; /* Save vertical height in landscape so canvas fills screen */
     }
-    /* Keep the entire game and its controls in the page's normal scroll flow.
-       This is essential inside GitHub previews and other embedded webviews. */
+    /* Shrink game screen slightly in mobile landscape so the dedicated button bar below never covers the dinosaur! */
     body.mode-mobile #canvasContainer {
-      aspect-ratio: 800 / 320;
+      aspect-ratio: auto;
       width: 100%;
       max-width: 100%;
-      flex: 0 0 auto;
-      min-height: 0;
-      max-height: none;
+      flex: 1 1 0%;
+      min-height: 120px;
+      max-height: calc(100dvh - 116px);
       border-radius: 0.65rem;
-    }
-    body.mode-mobile #gameCanvas {
-      /* A vertical swipe on the game can scroll the containing GitHub page. */
-      touch-action: pan-y;
-      /* Repainting a large blurred canvas shadow costs noticeably on phones. */
-      box-shadow: none;
-    }
-    body.mode-mobile #canvasContainer {
-      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.38) !important;
-      contain: layout paint;
-    }
-    body.mode-mobile #introGuideOverlay {
-      /* The guide covers the game; blurring an animated canvas beneath it is
-         pure GPU work and is a common source of mobile stutter. */
-      background-color: rgba(2, 6, 23, 0.96) !important;
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-    }
-    /*
-       A shared link often opens inside an in-app browser that cannot lock the
-       device orientation. Keep the game playable in portrait instead of
-       cropping it or trapping the player behind the rotate-screen overlay.
-    */
-    /* Device mode is selected in JavaScript from the phone user agent. A
-       landscape phone can be wider than 767 CSS px, so do not gate these
-       mobile rules behind a viewport-width breakpoint. */
-    @media (orientation: portrait) {
-      body.mode-mobile #mobileArcadePad {
-        margin-top: 4px;
-      }
-    }
-    /* Compact landscape mode: keep the whole arcade panel comfortable on a
-       phone screen instead of enlarging the canvas to the full page width. */
-    @media (orientation: landscape) {
-      body.mode-mobile {
-        padding: 3px 8px !important;
-      }
-      body.mode-mobile header {
-        padding-bottom: 2px !important;
-      }
-      body.mode-mobile main {
-        gap: 3px !important;
-      }
-      body.mode-mobile #timelineBarCard {
-        padding: 2px 8px !important;
-      }
-      body.mode-mobile #canvasContainer,
-      body.mode-mobile #mobileArcadePad {
-        width: 100%;
-        max-width: 640px;
-        align-self: center;
-        margin-left: auto;
-        margin-right: auto;
-      }
-      body.mode-mobile .mobile-thumb-btn {
-        height: 42px !important;
-      }
-      body.mode-mobile #mobileArcadePad {
-        gap: 5px !important;
-        padding: 3px !important;
-      }
     }
     /* Dedicated non-overlapping button deck space below the game screen */
     body.mode-mobile #mobileArcadePad {
@@ -2280,11 +2196,7 @@
       }
 
       const canvas = document.getElementById('gameCanvas');
-      // The canvas always paints a full opaque game scene. Asking for an
-      // opaque, low-latency context avoids an unnecessary alpha composite on
-      // mobile GPUs; unsupported options are safely ignored by browsers.
-      const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
-      ctx.imageSmoothingEnabled = false;
+      const ctx = canvas.getContext('2d');
       const W = 800;
       const H = 300;
       const GROUND_Y = 252;
@@ -3202,9 +3114,7 @@
           ufoBoss.startEncounter();
         }
 
-        // Canvas HUD is rendered every frame; the surrounding DOM timeline
-        // only needs a 5 Hz refresh on mobile and otherwise causes layout work.
-        if (frameCount % (isMobileMode ? 12 : 6) === 0) updateHeaderHUD();
+        if (frameCount % 6 === 0) updateHeaderHUD();
         updateColorLerp();
 
         if (banner.timer > 0) {
@@ -5820,33 +5730,19 @@
       // 12. MAIN ANIMATION LOOP & INPUT HANDLERS
       // =========================================================================
       let rafId = null;
-      let lastRenderAt = 0;
-      const MOBILE_PLAY_RENDER_INTERVAL = 1000 / 45;
-      const MOBILE_IDLE_RENDER_INTERVAL = 1000 / 15;
 
-      function gameLoop(now = performance.now()) {
-        // Stop all canvas work when the page is in another tab or app.
-        if (document.hidden) {
-          rafId = null;
-          return;
-        }
+      function gameLoop() {
         if (isPortraitLocked) {
           rafId = requestAnimationFrame(gameLoop);
           return;
         }
-        const isIdleCanvasState = gameState === STATE.READY || gameState === STATE.GAMEOVER;
-        const renderInterval = !isMobileMode
-          ? 0
-          : (isIdleCanvasState ? MOBILE_IDLE_RENDER_INTERVAL : (gameState === STATE.PLAYING ? MOBILE_PLAY_RENDER_INTERVAL : 0));
-        const shouldRender = renderInterval === 0 || now - lastRenderAt >= renderInterval;
-
         if (gameState === STATE.PLAYING) updatePlaying();
         else if (gameState === STATE.IMPACT_CUTSCENE) updateImpactCutscene();
         else if (gameState === STATE.STAGE1_BURIED_ENDING) updateBuriedEnding();
         else if (gameState === STATE.STAGE2_AWAKEN_CUTSCENE) updateAwakenCutscene();
         else if (gameState === STATE.STAGE2_CAPTURE_CUTSCENE) updateCaptureCutscene();
         else if (gameState === STATE.FINAL_EPILOGUE) updateFinalEpilogue();
-        else if (shouldRender) {
+        else {
           frameCount++;
           if (gameState === STATE.READY) {
             for (let ml of midLandmarks) {
@@ -5863,14 +5759,6 @@
             }
           }
         }
-
-        // Keep game physics and touch response at the browser refresh rate,
-        // while skipping expensive redraws that the phone cannot display.
-        if (!shouldRender) {
-          rafId = requestAnimationFrame(gameLoop);
-          return;
-        }
-        lastRenderAt = now;
 
         ctx.save();
 
@@ -6061,21 +5949,10 @@
       function checkMobileLandscapeLock() {
         const lockOverlay = document.getElementById('portraitLockOverlay');
         if (!lockOverlay) return;
-        // Do not block a shared-link player in portrait. In-app browsers and
-        // iframes frequently reject the Fullscreen/Screen Orientation APIs,
-        // which previously left this overlay on screen permanently.
-        isPortraitLocked = false;
-        lockOverlay.classList.add('hidden');
-      }
-
-      function syncAppViewport() {
-        // visualViewport reflects the usable area when a mobile browser's URL
-        // bar expands/collapses and when this page is embedded in a preview.
-        const viewport = window.visualViewport;
-        const height = viewport && viewport.height ? viewport.height : window.innerHeight;
-        if (height > 0) {
-          document.documentElement.style.setProperty('--app-height', `${Math.round(height * 100) / 100}px`);
-        }
+        // If on mobile mode and screen height is greater than screen width (Portrait), lock & prompt to rotate!
+        const isPortrait = window.innerHeight > window.innerWidth;
+        isPortraitLocked = Boolean(isMobileMode && isPortrait);
+        lockOverlay.classList.toggle('hidden', !isPortraitLocked);
       }
 
       function applyDeviceMode(mobileFlag, isAuto = false) {
@@ -6277,10 +6154,7 @@
 
       // Canvas direct touch/click: in Mobile Mode during PLAYING, touching left 35% of canvas ducks, right 65% jumps!
       canvas.addEventListener('pointerdown', (e) => {
-        // Let a finger's vertical swipe bubble into page scrolling. GitHub's
-        // mobile preview is often an iframe, so preventing this event traps
-        // the player on the upper half of the game.
-        if (!isMobileMode || e.pointerType !== 'touch') e.preventDefault();
+        e.preventDefault();
         if (gameState === STATE.FINAL_EPILOGUE) {
           resetGame(true);
           return;
@@ -6339,7 +6213,6 @@
       }
 
       function handleResize() {
-        syncAppViewport();
         canvas.width = W;
         canvas.height = H;
         if (!userOverrodeDeviceMode) {
@@ -6351,21 +6224,6 @@
 
       window.addEventListener('resize', handleResize);
       window.addEventListener('orientationchange', handleResize);
-      if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', handleResize);
-        window.visualViewport.addEventListener('scroll', syncAppViewport);
-      }
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-          if (rafId) cancelAnimationFrame(rafId);
-          rafId = null;
-          return;
-        }
-        if (!rafId) {
-          lastRenderAt = 0;
-          rafId = requestAnimationFrame(gameLoop);
-        }
-      });
 
       // Force instant loop initialization regardless of document ready state
       handleResize();
