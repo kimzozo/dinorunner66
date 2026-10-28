@@ -1,30 +1,45 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <meta name="theme-color" content="#0b0d13" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="DINO 66M" />
-  <meta name="description" content="기원전 6,600만 년 중생대 공룡 진화부터 부활한 백골 티렉스의 인류 역사·초미래 질주까지 담은 2부작 아케이드 게임 (준성 만듬)" />
-  <meta property="og:title" content="DINO: 66,000,000 — 2부작 대서사시" />
-  <meta property="og:description" content="PC 및 모바일 완벽 호환! 기원전 6,600만 년에서 머나먼 미래까지 달리는 티렉스 대서사시" />
-  <meta property="og:type" content="website" />
-  <title>DINO: 66,000,000 — 2부작 대서사시 (중생대 공룡 & 부활한 백골 티렉스)</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<!-- saved from url=(0101)file:///C:/Users/User/Documents/Codex/2026-10-28/new-chat/outputs/dino_66_000_000_2_mobile_fixed.html -->
+<html lang="ko" style="--app-height: 729.6px;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" content="#0b0d13">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="DINO 66M">
+  <meta name="description" content="기원전 6,600만 년 중생대 공룡 진화부터 부활한 백골 티렉스의 인류 역사·초미래 질주까지 담은 2부작 아케이드 게임 (준성 만듬)">
+  <meta property="og:title" content="DINO: 66,000,000 — 2부작 대서사시">
+  <meta property="og:description" content="PC 및 모바일 완벽 호환! 기원전 6,600만 년에서 머나먼 미래까지 달리는 티렉스 대서사시">
+  <meta property="og:type" content="website">
+  <title>DINO: 66,000,000 — 2부작 대서사시 (중생대 공룡 &amp; 부활한 백골 티렉스)</title>
+  <script src="./DINO_ 66,000,000 — 2부작 대서사시 (중생대 공룡 &amp; 부활한 백골 티렉스)_files/saved_resource"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+  <link href="./DINO_ 66,000,000 — 2부작 대서사시 (중생대 공룡 &amp; 부활한 백골 티렉스)_files/css2" rel="stylesheet">
   <style>
     :root {
       --pixel-font: 'Press Start 2P', monospace;
       --retro-sans: 'VT323', monospace;
+      /* Updated by syncAppViewport() so embedded/in-app mobile browsers use their real visible height. */
+      --app-height: 100vh;
+    }
+    html {
+      width: 100%;
+      min-height: 100%;
+      background-color: #0d0f14;
+      overflow-x: clip;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
     }
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background-color: #0d0f14;
       color: #e5e7eb;
+      margin: 0;
+      min-width: 0;
       user-select: none;
       -webkit-user-select: none;
       overflow-x: hidden;
@@ -42,9 +57,12 @@
     /* MOBILE LANDSCAPE-ONLY FULLSCREEN CONSOLE DESIGN (모바일 가로 전용 UI) */
     /* ===================================================================== */
     body.mode-mobile {
-      height: 100dvh;
-      max-height: 100dvh;
+      width: 100%;
+      height: var(--app-height);
+      min-height: 0;
+      max-height: var(--app-height);
       overflow: hidden;
+      overscroll-behavior: none;
       padding: 4px 8px !important;
       justify-content: space-between;
     }
@@ -75,8 +93,35 @@
       max-width: 100%;
       flex: 1 1 0%;
       min-height: 120px;
-      max-height: calc(100dvh - 116px);
+      max-height: calc(var(--app-height) - 116px);
       border-radius: 0.65rem;
+    }
+    /*
+       A shared link often opens inside an in-app browser that cannot lock the
+       device orientation. Keep the game playable in portrait instead of
+       cropping it or trapping the player behind the rotate-screen overlay.
+    */
+    @media (max-width: 767px) and (orientation: portrait) {
+      body.mode-mobile {
+        height: auto;
+        min-height: var(--app-height);
+        max-height: none;
+        overflow-x: hidden;
+        overflow-y: auto;
+        justify-content: flex-start;
+      }
+      body.mode-mobile main {
+        flex: 0 0 auto;
+      }
+      body.mode-mobile #canvasContainer {
+        aspect-ratio: 800 / 320;
+        flex: 0 0 auto;
+        min-height: 0;
+        max-height: none;
+      }
+      body.mode-mobile #mobileArcadePad {
+        margin-top: 4px;
+      }
     }
     /* Dedicated non-overlapping button deck space below the game screen */
     body.mode-mobile #mobileArcadePad {
@@ -158,8 +203,8 @@
       display: none !important;
     }
   </style>
-</head>
-<body class="min-h-screen flex flex-col items-center justify-center p-1.5 sm:p-4 bg-gradient-to-b from-[#0b0d13] via-[#121620] to-[#0b0d13]">
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.inset-x-0{left:0px;right:0px}.bottom-0{bottom:0px}.bottom-3{bottom:0.75rem}.left-\[12\.5\%\]{left:12.5%}.left-\[25\.0\%\]{left:25.0%}.left-\[37\.5\%\]{left:37.5%}.left-\[50\.0\%\]{left:50.0%}.left-\[62\.5\%\]{left:62.5%}.left-\[75\.0\%\]{left:75.0%}.left-\[87\.5\%\]{left:87.5%}.top-0{top:0px}.z-10{z-index:10}.z-20{z-index:20}.z-30{z-index:30}.z-50{z-index:50}.mb-0\.5{margin-bottom:0.125rem}.mb-2{margin-bottom:0.5rem}.mb-5{margin-bottom:1.25rem}.mt-0\.5{margin-top:0.125rem}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-11{height:2.75rem}.h-2{height:0.5rem}.h-20{height:5rem}.h-3\.5{height:0.875rem}.h-4{height:1rem}.h-5{height:1.25rem}.h-7{height:1.75rem}.h-8{height:2rem}.h-\[50px\]{height:50px}.h-full{height:100%}.min-h-screen{min-height:100vh}.w-0\.5{width:0.125rem}.w-11{width:2.75rem}.w-2{width:0.5rem}.w-20{width:5rem}.w-3\.5{width:0.875rem}.w-4{width:1rem}.w-5{width:1.25rem}.w-7{width:1.75rem}.w-8{width:2rem}.w-full{width:100%}.w-px{width:1px}.min-w-0{min-width:0px}.max-w-\[540px\]{max-width:540px}.max-w-\[880px\]{max-width:880px}.max-w-lg{max-width:32rem}.max-w-xs{max-width:20rem}.flex-1{flex:1 1 0%}.shrink-0{flex-shrink:0}.transform{transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@keyframes pulse{50%{opacity:.5}}.animate-pulse{animation:pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite}.select-none{-webkit-user-select:none;user-select:none}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.grid-cols-6{grid-template-columns:repeat(6, minmax(0, 1fr))}.grid-cols-8{grid-template-columns:repeat(8, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-start{align-items:flex-start}.items-center{align-items:center}.items-stretch{align-items:stretch}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1{gap:0.25rem}.gap-1\.5{gap:0.375rem}.gap-2{gap:0.5rem}.gap-2\.5{gap:0.625rem}.gap-3{gap:0.75rem}.space-y-1 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.25rem * var(--tw-space-y-reverse))}.space-y-1\.5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.375rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.375rem * var(--tw-space-y-reverse))}.space-y-2\.5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.625rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.625rem * var(--tw-space-y-reverse))}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rounded{border-radius:0.25rem}.rounded-2xl{border-radius:1rem}.rounded-3xl{border-radius:1.5rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-sm{border-radius:0.125rem}.rounded-xl{border-radius:0.75rem}.border{border-width:1px}.border-2{border-width:2px}.border-b{border-bottom-width:1px}.border-amber-400{--tw-border-opacity:1;border-color:rgb(251 191 36 / var(--tw-border-opacity, 1))}.border-amber-400\/50{border-color:rgb(251 191 36 / 0.5)}.border-amber-400\/60{border-color:rgb(251 191 36 / 0.6)}.border-amber-400\/70{border-color:rgb(251 191 36 / 0.7)}.border-amber-400\/80{border-color:rgb(251 191 36 / 0.8)}.border-amber-500\/40{border-color:rgb(245 158 11 / 0.4)}.border-amber-500\/60{border-color:rgb(245 158 11 / 0.6)}.border-amber-700\/70{border-color:rgb(180 83 9 / 0.7)}.border-cyan-400\/40{border-color:rgb(34 211 238 / 0.4)}.border-cyan-400\/60{border-color:rgb(34 211 238 / 0.6)}.border-cyan-400\/70{border-color:rgb(34 211 238 / 0.7)}.border-cyan-500\/60{border-color:rgb(6 182 212 / 0.6)}.border-emerald-500\/60{border-color:rgb(16 185 129 / 0.6)}.border-fuchsia-700{--tw-border-opacity:1;border-color:rgb(162 28 175 / var(--tw-border-opacity, 1))}.border-indigo-600\/70{border-color:rgb(79 70 229 / 0.7)}.border-indigo-700\/70{border-color:rgb(67 56 202 / 0.7)}.border-rose-700{--tw-border-opacity:1;border-color:rgb(190 18 60 / var(--tw-border-opacity, 1))}.border-slate-600{--tw-border-opacity:1;border-color:rgb(71 85 105 / var(--tw-border-opacity, 1))}.border-slate-700{--tw-border-opacity:1;border-color:rgb(51 65 85 / var(--tw-border-opacity, 1))}.border-slate-700\/80{border-color:rgb(51 65 85 / 0.8)}.border-slate-800{--tw-border-opacity:1;border-color:rgb(30 41 59 / var(--tw-border-opacity, 1))}.border-slate-800\/80{border-color:rgb(30 41 59 / 0.8)}.border-slate-800\/90{border-color:rgb(30 41 59 / 0.9)}.border-cyan-500\/40{border-color:rgb(6 182 212 / 0.4)}.bg-amber-400{--tw-bg-opacity:1;background-color:rgb(251 191 36 / var(--tw-bg-opacity, 1))}.bg-amber-500{--tw-bg-opacity:1;background-color:rgb(245 158 11 / var(--tw-bg-opacity, 1))}.bg-amber-500\/15{background-color:rgb(245 158 11 / 0.15)}.bg-amber-500\/20{background-color:rgb(245 158 11 / 0.2)}.bg-amber-500\/25{background-color:rgb(245 158 11 / 0.25)}.bg-amber-950\/70{background-color:rgb(69 26 3 / 0.7)}.bg-black\/80{background-color:rgb(0 0 0 / 0.8)}.bg-cyan-500\/20{background-color:rgb(6 182 212 / 0.2)}.bg-cyan-500\/25{background-color:rgb(6 182 212 / 0.25)}.bg-cyan-700{--tw-bg-opacity:1;background-color:rgb(14 116 144 / var(--tw-bg-opacity, 1))}.bg-emerald-600{--tw-bg-opacity:1;background-color:rgb(5 150 105 / var(--tw-bg-opacity, 1))}.bg-fuchsia-600{--tw-bg-opacity:1;background-color:rgb(192 38 211 / var(--tw-bg-opacity, 1))}.bg-fuchsia-950{--tw-bg-opacity:1;background-color:rgb(74 4 78 / var(--tw-bg-opacity, 1))}.bg-indigo-600{--tw-bg-opacity:1;background-color:rgb(79 70 229 / var(--tw-bg-opacity, 1))}.bg-indigo-950\/80{background-color:rgb(30 27 75 / 0.8)}.bg-indigo-950\/90{background-color:rgb(30 27 75 / 0.9)}.bg-rose-600\/40{background-color:rgb(225 29 72 / 0.4)}.bg-rose-700{--tw-bg-opacity:1;background-color:rgb(190 18 60 / var(--tw-bg-opacity, 1))}.bg-rose-950{--tw-bg-opacity:1;background-color:rgb(76 5 25 / var(--tw-bg-opacity, 1))}.bg-slate-700{--tw-bg-opacity:1;background-color:rgb(51 65 85 / var(--tw-bg-opacity, 1))}.bg-slate-800{--tw-bg-opacity:1;background-color:rgb(30 41 59 / var(--tw-bg-opacity, 1))}.bg-slate-800\/90{background-color:rgb(30 41 59 / 0.9)}.bg-slate-900{--tw-bg-opacity:1;background-color:rgb(15 23 42 / var(--tw-bg-opacity, 1))}.bg-slate-900\/90{background-color:rgb(15 23 42 / 0.9)}.bg-slate-900\/95{background-color:rgb(15 23 42 / 0.95)}.bg-slate-950{--tw-bg-opacity:1;background-color:rgb(2 6 23 / var(--tw-bg-opacity, 1))}.bg-slate-950\/70{background-color:rgb(2 6 23 / 0.7)}.bg-slate-950\/85{background-color:rgb(2 6 23 / 0.85)}.bg-slate-950\/90{background-color:rgb(2 6 23 / 0.9)}.bg-slate-950\/95{background-color:rgb(2 6 23 / 0.95)}.bg-stone-800{--tw-bg-opacity:1;background-color:rgb(41 37 36 / var(--tw-bg-opacity, 1))}.bg-cyan-500\/15{background-color:rgb(6 182 212 / 0.15)}.bg-gradient-to-b{background-image:linear-gradient(to bottom, var(--tw-gradient-stops))}.bg-gradient-to-r{background-image:linear-gradient(to right, var(--tw-gradient-stops))}.from-\[\#0b0d13\]{--tw-gradient-from:#0b0d13 var(--tw-gradient-from-position);--tw-gradient-to:rgb(11 13 19 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-amber-400{--tw-gradient-from:#fbbf24 var(--tw-gradient-from-position);--tw-gradient-to:rgb(251 191 36 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-amber-500{--tw-gradient-from:#f59e0b var(--tw-gradient-from-position);--tw-gradient-to:rgb(245 158 11 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-amber-500\/30{--tw-gradient-from:rgb(245 158 11 / 0.3) var(--tw-gradient-from-position);--tw-gradient-to:rgb(245 158 11 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-slate-800{--tw-gradient-from:#1e293b var(--tw-gradient-from-position);--tw-gradient-to:rgb(30 41 59 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.via-\[\#121620\]{--tw-gradient-to:rgb(18 22 32 / 0)  var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), #121620 var(--tw-gradient-via-position), var(--tw-gradient-to)}.via-cyan-400{--tw-gradient-to:rgb(34 211 238 / 0)  var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), #22d3ee var(--tw-gradient-via-position), var(--tw-gradient-to)}.via-emerald-400{--tw-gradient-to:rgb(52 211 153 / 0)  var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), #34d399 var(--tw-gradient-via-position), var(--tw-gradient-to)}.via-rose-500{--tw-gradient-to:rgb(244 63 94 / 0)  var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), #f43f5e var(--tw-gradient-via-position), var(--tw-gradient-to)}.to-\[\#0b0d13\]{--tw-gradient-to:#0b0d13 var(--tw-gradient-to-position)}.to-amber-700\/30{--tw-gradient-to:rgb(180 83 9 / 0.3) var(--tw-gradient-to-position)}.to-fuchsia-500{--tw-gradient-to:#d946ef var(--tw-gradient-to-position)}.to-orange-500{--tw-gradient-to:#f97316 var(--tw-gradient-to-position)}.to-slate-900{--tw-gradient-to:#0f172a var(--tw-gradient-to-position)}.p-1\.5{padding:0.375rem}.p-2{padding:0.5rem}.p-3\.5{padding:0.875rem}.p-4{padding:1rem}.p-5{padding:1.25rem}.p-6{padding:1.5rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-2\.5{padding-left:0.625rem;padding-right:0.625rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-3\.5{padding-left:0.875rem;padding-right:0.875rem}.px-4{padding-left:1rem;padding-right:1rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.py-0\.5{padding-top:0.125rem;padding-bottom:0.125rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-1\.5{padding-top:0.375rem;padding-bottom:0.375rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-2\.5{padding-top:0.625rem;padding-bottom:0.625rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.pb-1{padding-bottom:0.25rem}.pb-1\.5{padding-bottom:0.375rem}.pb-3{padding-bottom:0.75rem}.pt-0\.5{padding-top:0.125rem}.text-left{text-align:left}.text-center{text-align:center}.text-\[10px\]{font-size:10px}.text-\[11px\]{font-size:11px}.text-\[8px\]{font-size:8px}.text-\[9px\]{font-size:9px}.text-base{font-size:1rem;line-height:1.5rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-extrabold{font-weight:800}.font-medium{font-weight:500}.font-semibold{font-weight:600}.leading-none{line-height:1}.leading-relaxed{line-height:1.625}.leading-tight{line-height:1.25}.tracking-tight{letter-spacing:-0.025em}.tracking-wide{letter-spacing:0.025em}.tracking-wider{letter-spacing:0.05em}.text-amber-200{--tw-text-opacity:1;color:rgb(253 230 138 / var(--tw-text-opacity, 1))}.text-amber-300{--tw-text-opacity:1;color:rgb(252 211 77 / var(--tw-text-opacity, 1))}.text-amber-300\/90{color:rgb(252 211 77 / 0.9)}.text-amber-400{--tw-text-opacity:1;color:rgb(251 191 36 / var(--tw-text-opacity, 1))}.text-blue-300{--tw-text-opacity:1;color:rgb(147 197 253 / var(--tw-text-opacity, 1))}.text-blue-400{--tw-text-opacity:1;color:rgb(96 165 250 / var(--tw-text-opacity, 1))}.text-cyan-200{--tw-text-opacity:1;color:rgb(165 243 252 / var(--tw-text-opacity, 1))}.text-cyan-300{--tw-text-opacity:1;color:rgb(103 232 249 / var(--tw-text-opacity, 1))}.text-cyan-300\/80{color:rgb(103 232 249 / 0.8)}.text-cyan-400{--tw-text-opacity:1;color:rgb(34 211 238 / var(--tw-text-opacity, 1))}.text-emerald-300{--tw-text-opacity:1;color:rgb(110 231 183 / var(--tw-text-opacity, 1))}.text-emerald-400{--tw-text-opacity:1;color:rgb(52 211 153 / var(--tw-text-opacity, 1))}.text-fuchsia-200{--tw-text-opacity:1;color:rgb(245 208 254 / var(--tw-text-opacity, 1))}.text-fuchsia-300{--tw-text-opacity:1;color:rgb(240 171 252 / var(--tw-text-opacity, 1))}.text-fuchsia-400{--tw-text-opacity:1;color:rgb(232 121 249 / var(--tw-text-opacity, 1))}.text-indigo-200{--tw-text-opacity:1;color:rgb(199 210 254 / var(--tw-text-opacity, 1))}.text-indigo-300{--tw-text-opacity:1;color:rgb(165 180 252 / var(--tw-text-opacity, 1))}.text-rose-200{--tw-text-opacity:1;color:rgb(254 205 211 / var(--tw-text-opacity, 1))}.text-rose-300{--tw-text-opacity:1;color:rgb(253 164 175 / var(--tw-text-opacity, 1))}.text-rose-400{--tw-text-opacity:1;color:rgb(251 113 133 / var(--tw-text-opacity, 1))}.text-sky-300{--tw-text-opacity:1;color:rgb(125 211 252 / var(--tw-text-opacity, 1))}.text-sky-400{--tw-text-opacity:1;color:rgb(56 189 248 / var(--tw-text-opacity, 1))}.text-slate-100{--tw-text-opacity:1;color:rgb(241 245 249 / var(--tw-text-opacity, 1))}.text-slate-200{--tw-text-opacity:1;color:rgb(226 232 240 / var(--tw-text-opacity, 1))}.text-slate-300{--tw-text-opacity:1;color:rgb(203 213 225 / var(--tw-text-opacity, 1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-slate-950{--tw-text-opacity:1;color:rgb(2 6 23 / var(--tw-text-opacity, 1))}.text-stone-300{--tw-text-opacity:1;color:rgb(214 211 209 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-yellow-300{--tw-text-opacity:1;color:rgb(253 224 71 / var(--tw-text-opacity, 1))}.underline{-webkit-text-decoration-line:underline;text-decoration-line:underline}.opacity-80{opacity:0.8}.shadow{--tw-shadow:0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-\[0_3px_0_rgba\(217\2c 119\2c 6\2c 0\.5\)\]{--tw-shadow:0 3px 0 rgba(217,119,6,0.5);--tw-shadow-colored:0 3px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-\[0_3px_0_rgba\(8\2c 145\2c 178\2c 0\.45\)\]{--tw-shadow:0 3px 0 rgba(8,145,178,0.45);--tw-shadow-colored:0 3px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-inner{--tw-shadow:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:inset 0 2px 4px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.backdrop-blur-md{--tw-backdrop-blur:blur(12px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.backdrop-blur-sm{--tw-backdrop-blur:blur(4px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-100{transition-duration:100ms}.hover\:scale-105:hover{--tw-scale-x:1.05;--tw-scale-y:1.05;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.hover\:bg-amber-500\/30:hover{background-color:rgb(245 158 11 / 0.3)}.hover\:bg-amber-500\/40:hover{background-color:rgb(245 158 11 / 0.4)}.hover\:bg-amber-900:hover{--tw-bg-opacity:1;background-color:rgb(120 53 15 / var(--tw-bg-opacity, 1))}.hover\:bg-cyan-500\/40:hover{background-color:rgb(6 182 212 / 0.4)}.hover\:bg-emerald-500:hover{--tw-bg-opacity:1;background-color:rgb(16 185 129 / var(--tw-bg-opacity, 1))}.hover\:bg-fuchsia-900:hover{--tw-bg-opacity:1;background-color:rgb(112 26 117 / var(--tw-bg-opacity, 1))}.hover\:bg-indigo-900:hover{--tw-bg-opacity:1;background-color:rgb(49 46 129 / var(--tw-bg-opacity, 1))}.hover\:bg-rose-500\/60:hover{background-color:rgb(244 63 94 / 0.6)}.hover\:bg-rose-900:hover{--tw-bg-opacity:1;background-color:rgb(136 19 55 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-700:hover{--tw-bg-opacity:1;background-color:rgb(51 65 85 / var(--tw-bg-opacity, 1))}.hover\:bg-stone-700:hover{--tw-bg-opacity:1;background-color:rgb(68 64 60 / var(--tw-bg-opacity, 1))}.hover\:from-amber-400:hover{--tw-gradient-from:#fbbf24 var(--tw-gradient-from-position);--tw-gradient-to:rgb(251 191 36 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.hover\:to-orange-400:hover{--tw-gradient-to:#fb923c var(--tw-gradient-to-position)}.hover\:text-cyan-300:hover{--tw-text-opacity:1;color:rgb(103 232 249 / var(--tw-text-opacity, 1))}.hover\:text-emerald-300:hover{--tw-text-opacity:1;color:rgb(110 231 183 / var(--tw-text-opacity, 1))}.active\:scale-95:active{--tw-scale-x:.95;--tw-scale-y:.95;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.active\:from-amber-500\/55:active{--tw-gradient-from:rgb(245 158 11 / 0.55) var(--tw-gradient-from-position);--tw-gradient-to:rgb(245 158 11 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.active\:from-cyan-900:active{--tw-gradient-from:#164e63 var(--tw-gradient-from-position);--tw-gradient-to:rgb(22 78 99 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.active\:to-amber-600\/55:active{--tw-gradient-to:rgb(217 119 6 / 0.55) var(--tw-gradient-to-position)}.active\:to-slate-950:active{--tw-gradient-to:#020617 var(--tw-gradient-to-position)}@media (min-width: 640px){.sm\:inline{display:inline}.sm\:h-2\.5{height:0.625rem}.sm\:h-4{height:1rem}.sm\:h-5{height:1.25rem}.sm\:h-6{height:1.5rem}.sm\:h-8{height:2rem}.sm\:h-9{height:2.25rem}.sm\:h-\[56px\]{height:56px}.sm\:w-2\.5{width:0.625rem}.sm\:w-4{width:1rem}.sm\:w-5{width:1.25rem}.sm\:w-6{width:1.5rem}.sm\:w-8{width:2rem}.sm\:w-9{width:2.25rem}.sm\:grid-cols-12{grid-template-columns:repeat(12, minmax(0, 1fr))}.sm\:flex-row{flex-direction:row}.sm\:gap-1\.5{gap:0.375rem}.sm\:p-2{padding:0.5rem}.sm\:p-3{padding:0.75rem}.sm\:p-4{padding:1rem}.sm\:text-\[10px\]{font-size:10px}.sm\:text-base{font-size:1rem;line-height:1.5rem}.sm\:text-lg{font-size:1.125rem;line-height:1.75rem}.sm\:text-sm{font-size:0.875rem;line-height:1.25rem}.sm\:text-xs{font-size:0.75rem;line-height:1rem}}@media (min-width: 768px){.md\:col-span-4{grid-column:span 4 / span 4}.md\:col-span-8{grid-column:span 8 / span 8}.md\:grid-cols-12{grid-template-columns:repeat(12, minmax(0, 1fr))}.md\:text-base{font-size:1rem;line-height:1.5rem}}@media (min-width: 1024px){.lg\:inline-flex{display:inline-flex}}</style></head>
+<body class="min-h-screen flex flex-col items-center justify-center p-1.5 sm:p-4 bg-gradient-to-b from-[#0b0d13] via-[#121620] to-[#0b0d13] mode-pc">
 
   <!-- ===================================================================== -->
   <!-- PORTRAIT ORIENTATION LOCK OVERLAY (모바일 세로 상태일 때 가로 회전 유도) -->
@@ -167,15 +212,15 @@
   <div id="portraitLockOverlay" class="hidden fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center select-none">
     <div class="w-20 h-20 rounded-3xl bg-amber-500/15 border-2 border-amber-400/60 flex items-center justify-center mb-5 shadow-2xl">
       <svg class="w-11 h-11 text-amber-400 animate-phone-rotate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
-        <line x1="12" y1="18" x2="12.01" y2="18" />
+        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+        <line x1="12" y1="18" x2="12.01" y2="18"></line>
       </svg>
     </div>
     <h2 class="pixel-font text-sm sm:text-base text-amber-400 mb-2 tracking-wide">
       가로 모드 전용 게임입니다
     </h2>
     <p class="text-xs sm:text-sm text-slate-300 max-w-xs leading-relaxed mb-5">
-      넓고 쾌적한 시야와 양손 엄지 조작을 위해<br />
+      넓고 쾌적한 시야와 양손 엄지 조작을 위해<br>
       <strong class="text-cyan-300">스마트폰을 가로(Landscape)로 돌려주세요!</strong>
     </p>
     <button id="lockLandscapeBtn" type="button" class="px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-extrabold text-xs shadow-lg active:scale-95 transition flex items-center gap-2">
@@ -199,17 +244,15 @@
     <!-- Diagonal Upper-Right Compact Icon Controls -->
     <div class="flex items-center gap-1 sm:gap-1.5 shrink-0">
       <!-- Hidden legacy elements so automated feature checks remain 100% satisfied -->
-      <span id="deviceEnvBadge" class="hidden">💻 PC 환경 감지됨</span>
-      <span id="eraBadge" class="hidden">STAGE 1: TRIASSIC</span>
-      <button id="deviceModeBtn" type="button" class="hidden"><span id="deviceModeIcon">📱</span><span id="deviceModeLabel">모바일키 전환</span></button>
+      <span id="deviceEnvBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-500/15 border border-cyan-500/40 text-cyan-300">💻 PC 환경 (키보드 최적화)</span>
+      <span id="eraBadge" class="hidden">STAGE 1: 1-A TRIASSIC</span>
+      <button id="deviceModeBtn" type="button" class="hidden"><span id="deviceModeIcon">📱</span><span id="deviceModeLabel">모바일 대형키 켜기</span></button>
       <button id="deployModalBtn" type="button" class="hidden"><span>🚀</span><span>배포·공유</span></button>
       <button id="mobileRestartBtn" type="button" class="hidden">🔄 처음부터</button><div id="mobileCheatToggleRow" class="hidden"></div>
 
       <!-- Mobile Landscape Quick Utility Chips (Invincible & Time-Warp Drawer Toggle) -->
       <div id="mobileTopUtilityBtns" class="flex items-center gap-1">
-        <button id="mobileInvincibleBtn" type="button" class="h-7 px-2 rounded-lg bg-indigo-950/90 border border-indigo-600/70 text-indigo-200 text-[10px] font-bold flex items-center gap-1 shadow">
-          🛡️ 무적: OFF
-        </button>
+        <button id="mobileInvincibleBtn" type="button" class="px-2.5 py-1.5 rounded-lg bg-indigo-950/90 border border-indigo-600/70 text-indigo-200 font-semibold">🛡️ 무적: OFF</button>
         <button id="toggleMobileCheatDrawerBtn" type="button" class="h-7 px-2 rounded-lg bg-amber-500/15 border border-amber-500/40 text-amber-300 text-[10px] font-bold flex items-center gap-1 shadow">
           <span>⚡ 시대 타임워프 열기</span>
           <span id="cheatDrawerArrow">▼</span>
@@ -219,8 +262,8 @@
       <!-- Small Rotate/Restart Icon at Upper-Right Diagonal Corner (Requirement 2) -->
       <button id="topCornerResetBtn" type="button" class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-slate-800/90 hover:bg-slate-700 active:scale-95 text-amber-300 border border-slate-700 transition flex items-center justify-center shadow" title="처음부터 다시 시작 (R)">
         <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
-          <path d="M3 3v5h5" />
+          <path d="M3 12a9 9 0 1 0 3-6.7L3 8"></path>
+          <path d="M3 3v5h5"></path>
         </svg>
       </button>
 
@@ -255,10 +298,10 @@
         <div class="absolute top-0 bottom-0 left-[12.5%] w-px bg-slate-700 z-10" title="1,000점: 쥐라기"></div>
         <div class="absolute top-0 bottom-0 left-[25.0%] w-px bg-slate-700 z-10" title="2,000점: 백악기"></div>
         <div class="absolute top-0 bottom-0 left-[37.5%] w-px bg-rose-700 z-10" title="3,000점: 대멸종(고사목·쓰러진 나무)"></div>
-        <div class="absolute top-0 bottom-0 left-[50.0%] w-0.5 bg-amber-400 z-10" title="4,000점: 1부 흙속 매장 엔딩 & 2부 땅파기 각성!"></div>
-        <div class="absolute top-0 bottom-0 left-[62.5%] w-px bg-cyan-700 z-10" title="5,000점: 고대 문명 & 중세/산업혁명"></div>
+        <div class="absolute top-0 bottom-0 left-[50.0%] w-0.5 bg-amber-400 z-10" title="4,000점: 1부 흙속 매장 엔딩 &amp; 2부 땅파기 각성!"></div>
+        <div class="absolute top-0 bottom-0 left-[62.5%] w-px bg-cyan-700 z-10" title="5,000점: 고대 문명 &amp; 중세/산업혁명"></div>
         <div class="absolute top-0 bottom-0 left-[75.0%] w-px bg-indigo-600 z-10" title="6,000점: 현대 도시(은행·전광판·랜드마크)"></div>
-        <div class="absolute top-0 bottom-0 left-[87.5%] w-px bg-fuchsia-600 z-10" title="7,000점: 초미래(UFO 보스 레이저전 & 추격 포위)"></div>
+        <div class="absolute top-0 bottom-0 left-[87.5%] w-px bg-fuchsia-600 z-10" title="7,000점: 초미래(UFO 보스 레이저전 &amp; 추격 포위)"></div>
         <div id="timelineFill" class="h-full bg-gradient-to-r from-amber-400 via-emerald-400 via-rose-500 via-cyan-400 to-fuchsia-500 transition-all duration-100" style="width: 0%;"></div>
       </div>
       <div id="eraLabelsGrid" class="grid grid-cols-8 text-[9px] sm:text-[10px] text-slate-400 pt-0.5 text-center font-medium">
@@ -308,9 +351,9 @@
             <div class="flex items-center gap-2">
               <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-cyan-500/20 border border-cyan-400/60 flex items-center justify-center shrink-0 text-cyan-300">
                 <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 5v14" />
-                  <path d="m19 12-7 7-7-7" />
-                  <path d="M5 3h14" />
+                  <path d="M12 5v14"></path>
+                  <path d="m19 12-7 7-7-7"></path>
+                  <path d="M5 3h14"></path>
                 </svg>
               </div>
               <div>
@@ -321,9 +364,9 @@
             <div class="flex items-center gap-2">
               <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-amber-500/20 border border-amber-400/60 flex items-center justify-center shrink-0 text-amber-300">
                 <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 19V5" />
-                  <path d="m5 12 7-7 7 7" />
-                  <path d="M7 21h10" />
+                  <path d="M12 19V5"></path>
+                  <path d="m5 12 7-7 7 7"></path>
+                  <path d="M7 21h10"></path>
                 </svg>
               </div>
               <div>
@@ -366,10 +409,10 @@
       <button id="mobileDuckBtn" type="button" class="mobile-thumb-btn touch-pad-btn w-full h-[50px] sm:h-[56px] rounded-xl bg-gradient-to-b from-slate-800 to-slate-900 active:from-cyan-900 active:to-slate-950 border-2 border-cyan-500/60 shadow-[0_3px_0_rgba(8,145,178,0.45)] flex items-center justify-center gap-2.5 px-3 text-cyan-200">
         <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-cyan-500/20 border border-cyan-400/40 flex items-center justify-center shrink-0">
           <svg class="w-5 h-5 sm:w-6 sm:h-6 text-cyan-300" viewBox="0 0 32 32" fill="none">
-            <rect x="4" y="4" width="24" height="2.5" rx="1" fill="currentColor" opacity="0.55" />
-            <path d="M11 8v7m0 0-3-3m3 3 3-3" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M6 23h13l5-3h4v4h-5l-3 2H9v3H6v-6Z" fill="currentColor" />
-            <circle cx="25" cy="21.5" r="1" fill="#0f172a" />
+            <rect x="4" y="4" width="24" height="2.5" rx="1" fill="currentColor" opacity="0.55"></rect>
+            <path d="M11 8v7m0 0-3-3m3 3 3-3" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M6 23h13l5-3h4v4h-5l-3 2H9v3H6v-6Z" fill="currentColor"></path>
+            <circle cx="25" cy="21.5" r="1" fill="#0f172a"></circle>
           </svg>
         </div>
         <div class="flex flex-col items-start text-left">
@@ -382,10 +425,10 @@
       <button id="mobileJumpBtn" type="button" class="mobile-thumb-btn touch-pad-btn w-full h-[50px] sm:h-[56px] rounded-xl bg-gradient-to-b from-amber-500/30 to-amber-700/30 active:from-amber-500/55 active:to-amber-600/55 border-2 border-amber-400 shadow-[0_3px_0_rgba(217,119,6,0.5)] flex items-center justify-center gap-2.5 px-3 text-amber-200">
         <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-amber-500/25 border border-amber-400/50 flex items-center justify-center shrink-0">
           <svg class="w-5 h-5 sm:w-6 sm:h-6 text-amber-300" viewBox="0 0 32 32" fill="none">
-            <path d="M9 17V6m0 0L5.5 9.5M9 6l3.5 3.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M18 6h8v5h-4v2h3v2h-3l-2 4h-3l-3 3v-4l3-4v-4h1V6Z" fill="currentColor" />
-            <circle cx="21" cy="8" r="1" fill="#0f172a" />
-            <path d="M6 27c4-3 16-3 20 0" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" opacity="0.65" />
+            <path d="M9 17V6m0 0L5.5 9.5M9 6l3.5 3.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M18 6h8v5h-4v2h3v2h-3l-2 4h-3l-3 3v-4l3-4v-4h1V6Z" fill="currentColor"></path>
+            <circle cx="21" cy="8" r="1" fill="#0f172a"></circle>
+            <path d="M6 27c4-3 16-3 20 0" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" opacity="0.65"></path>
           </svg>
         </div>
         <div class="flex flex-col items-start text-left">
@@ -415,11 +458,11 @@
         </div>
         <div class="flex items-center gap-1.5">
           <button id="touchJumpBtn" type="button" class="touch-pad-btn px-3 py-2 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-200 text-xs font-bold transition flex items-center gap-1.5">
-            <svg class="w-4 h-4 text-amber-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+            <svg class="w-4 h-4 text-amber-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"></path><path d="m5 12 7-7 7 7"></path></svg>
             <span>▲ 점프</span>
           </button>
           <button id="touchDuckBtn" type="button" class="touch-pad-btn px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-cyan-200 text-xs font-bold transition flex items-center gap-1.5">
-            <svg class="w-4 h-4 text-cyan-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+            <svg class="w-4 h-4 text-cyan-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg>
             <span>▼ 숙이기</span>
           </button>
         </div>
@@ -441,13 +484,13 @@
           <button type="button" data-cheat="3" class="cheat-btn py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-[9px] text-sky-300 flex flex-col items-center">
             <span class="pixel-font text-[8px] text-white">[3]</span><span>백악기</span>
           </button>
-          <button type="button" data-cheat="4" class="cheat-btn py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-[9px] text-rose-300 flex flex-col items-center" title="대멸종: 나뭇잎 없는 고사목 & 쓰러진 나무">
+          <button type="button" data-cheat="4" class="cheat-btn py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-[9px] text-rose-300 flex flex-col items-center" title="대멸종: 나뭇잎 없는 고사목 &amp; 쓰러진 나무">
             <span class="pixel-font text-[8px] text-white">[4]</span><span>대멸종</span>
           </button>
           <button type="button" data-cheat="5" class="cheat-btn py-1 rounded bg-rose-950 hover:bg-rose-900 border border-rose-700 text-[9px] text-rose-200 flex flex-col items-center" title="1부 엔딩(빈 공간 없이 흙으로 꽉 찬 매장)">
             <span class="pixel-font text-[8px] text-rose-300">[5]</span><span>매장엔딩</span>
           </button>
-          <button type="button" data-cheat="6" class="cheat-btn py-1 rounded bg-stone-800 hover:bg-stone-700 border border-amber-500/60 text-[9px] text-amber-200 flex flex-col items-center" title="2부 시작: 흙을 파헤치며 올라오는 뼈 티렉스 & 구석기 인류!">
+          <button type="button" data-cheat="6" class="cheat-btn py-1 rounded bg-stone-800 hover:bg-stone-700 border border-amber-500/60 text-[9px] text-amber-200 flex flex-col items-center" title="2부 시작: 흙을 파헤치며 올라오는 뼈 티렉스 &amp; 구석기 인류!">
             <span class="pixel-font text-[8px] text-amber-300">[6]</span><span>2부각성</span>
           </button>
           <button type="button" data-cheat="7" class="cheat-btn py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-[9px] text-yellow-300 flex flex-col items-center">
@@ -456,10 +499,10 @@
           <button type="button" data-cheat="8" class="cheat-btn py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-[9px] text-blue-300 flex flex-col items-center" title="현대 도시: 은행, 전광판, 랜드마크 타워, 시민들">
             <span class="pixel-font text-[8px] text-white">[8]</span><span>현대도시</span>
           </button>
-          <button type="button" data-cheat="9" class="cheat-btn py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-[9px] text-fuchsia-300 flex flex-col items-center" title="초미래: 초고층 빌딩, 배경 UFO & 중간보스 UFO 레이저 6연발!">
+          <button type="button" data-cheat="9" class="cheat-btn py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-[9px] text-fuchsia-300 flex flex-col items-center" title="초미래: 초고층 빌딩, 배경 UFO &amp; 중간보스 UFO 레이저 6연발!">
             <span class="pixel-font text-[8px] text-white">[9]</span><span>UFO보스</span>
           </button>
-          <button type="button" data-cheat="0" class="cheat-btn py-1 rounded bg-fuchsia-950 hover:bg-fuchsia-900 border border-fuchsia-700 text-[9px] text-fuchsia-200 flex flex-col items-center" title="2부 엔딩: 뒤에서 추격해오다 앞질러 막아서며 포위 & 박제!">
+          <button type="button" data-cheat="0" class="cheat-btn py-1 rounded bg-fuchsia-950 hover:bg-fuchsia-900 border border-fuchsia-700 text-[9px] text-fuchsia-200 flex flex-col items-center" title="2부 엔딩: 뒤에서 추격해오다 앞질러 막아서며 포위 &amp; 박제!">
             <span class="pixel-font text-[8px] text-fuchsia-300">[0]</span><span>추격포위</span>
           </button>
           <button type="button" id="nextSubPhaseBtn" class="py-1 rounded bg-amber-950/70 hover:bg-amber-900 border border-amber-700/70 text-[9px] text-amber-200 flex flex-col items-center">
@@ -507,7 +550,7 @@
           </div>
           <div>
             <strong class="text-emerald-300">2. Tiiny.host / Surge (파일 1개 즉시 업로드):</strong>
-            <a href="https://tiiny.host" target="_blank" rel="noopener noreferrer" class="underline text-emerald-400 hover:text-emerald-300">tiiny.host</a> 에 <code>index.html</code> 파일 하나만 올리면 모바일·PC 어디서나 열리는 QR코드와 전용 링크가 발급됩니다.
+            <a href="https://tiiny.host/" target="_blank" rel="noopener noreferrer" class="underline text-emerald-400 hover:text-emerald-300">tiiny.host</a> 에 <code>index.html</code> 파일 하나만 올리면 모바일·PC 어디서나 열리는 QR코드와 전용 링크가 발급됩니다.
           </div>
           <div>
             <strong class="text-fuchsia-300">3. GitHub Pages / Vercel (영구 무료 서버):</strong>
@@ -5949,10 +5992,21 @@
       function checkMobileLandscapeLock() {
         const lockOverlay = document.getElementById('portraitLockOverlay');
         if (!lockOverlay) return;
-        // If on mobile mode and screen height is greater than screen width (Portrait), lock & prompt to rotate!
-        const isPortrait = window.innerHeight > window.innerWidth;
-        isPortraitLocked = Boolean(isMobileMode && isPortrait);
-        lockOverlay.classList.toggle('hidden', !isPortraitLocked);
+        // Do not block a shared-link player in portrait. In-app browsers and
+        // iframes frequently reject the Fullscreen/Screen Orientation APIs,
+        // which previously left this overlay on screen permanently.
+        isPortraitLocked = false;
+        lockOverlay.classList.add('hidden');
+      }
+
+      function syncAppViewport() {
+        // visualViewport reflects the usable area when a mobile browser's URL
+        // bar expands/collapses and when this page is embedded in a preview.
+        const viewport = window.visualViewport;
+        const height = viewport && viewport.height ? viewport.height : window.innerHeight;
+        if (height > 0) {
+          document.documentElement.style.setProperty('--app-height', `${Math.round(height * 100) / 100}px`);
+        }
       }
 
       function applyDeviceMode(mobileFlag, isAuto = false) {
@@ -6213,6 +6267,7 @@
       }
 
       function handleResize() {
+        syncAppViewport();
         canvas.width = W;
         canvas.height = H;
         if (!userOverrodeDeviceMode) {
@@ -6224,6 +6279,10 @@
 
       window.addEventListener('resize', handleResize);
       window.addEventListener('orientationchange', handleResize);
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', handleResize);
+        window.visualViewport.addEventListener('scroll', syncAppViewport);
+      }
 
       // Force instant loop initialization regardless of document ready state
       handleResize();
@@ -6239,5 +6298,6 @@
       }
     })();
   </script>
-</body>
-</html>
+
+
+</body></html>
